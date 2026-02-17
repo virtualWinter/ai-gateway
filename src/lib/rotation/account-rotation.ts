@@ -205,14 +205,17 @@ export async function refreshIfExpired(
 }
 
 async function refreshGoogleToken(
-    refreshToken: string
+    combinedToken: string
 ): Promise<{ access_token: string; expires_in: number; refresh_token?: string }> {
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const { config } = await import("@/lib/config");
+    const clientId = config.googleClientId;
+    const clientSecret = config.googleClientSecret;
 
     if (!clientId || !clientSecret) {
         throw new Error("Google OAuth credentials not configured");
     }
+
+    const [refreshToken] = combinedToken.split("|");
 
     const response = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",
@@ -230,7 +233,15 @@ async function refreshGoogleToken(
         throw new Error(`Google token refresh failed: ${error}`);
     }
 
-    return response.json();
+    const data = await response.json();
+
+    // If we got a new refresh token, we need to preserve the projectId
+    if (data.refresh_token && combinedToken.includes("|")) {
+        const projectId = combinedToken.split("|")[1];
+        data.refresh_token = `${data.refresh_token}|${projectId}`;
+    }
+
+    return data;
 }
 
 async function refreshOpenAIToken(

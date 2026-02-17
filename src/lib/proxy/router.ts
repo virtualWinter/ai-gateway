@@ -33,6 +33,7 @@ export interface ResolvedRoute {
     oauthAccount?: {
         id: string;
         accessToken: string;
+        projectId?: string;
     };
 }
 
@@ -114,9 +115,18 @@ export async function resolveRoute(
                 }
 
                 const refreshed = await refreshIfExpired(account, row.providerType);
+                const decryptedToken = decrypt(refreshed.encryptedAccessToken);
+                const decryptedRefresh = decrypt(refreshed.encryptedRefreshToken);
+
+                let projectId: string | undefined;
+                if (row.providerType === "google" && decryptedRefresh.includes("|")) {
+                    projectId = decryptedRefresh.split("|")[1];
+                }
+
                 oauthAccount = {
                     id: refreshed.id,
-                    accessToken: decrypt(refreshed.encryptedAccessToken),
+                    accessToken: decryptedToken,
+                    projectId,
                 };
             }
 

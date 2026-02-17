@@ -226,6 +226,17 @@ export function buildUpstreamRequest(
         ...authHeaders,
     };
 
+    // Antigravity specific headers for Google
+    if (route.provider.type === "google") {
+        headers["User-Agent"] = "google-api-nodejs-client/9.15.1";
+        headers["X-Goog-Api-Client"] = "google-cloud-sdk vscode_cloudshelleditor/0.1";
+        headers["Client-Metadata"] = JSON.stringify({
+            ideType: "ANTIGRAVITY",
+            platform: process.platform === "win32" ? "WINDOWS" : "MACOS",
+            pluginType: "GEMINI",
+        });
+    }
+
     // Anthropic requires version header
     if (route.provider.type === "anthropic") {
         headers["anthropic-version"] = "2023-06-01";

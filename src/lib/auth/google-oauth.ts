@@ -52,6 +52,51 @@ export function buildGoogleAuthUrl(
 }
 
 /**
+ * Resolve the Google Cloud project ID associated with the account.
+ */
+async function fetchProjectID(accessToken: string): Promise<string> {
+    const endpoints = [
+        "https://cloudcode-pa.googleapis.com",
+        "https://daily-cloudcode-pa.sandbox.googleapis.com",
+        "https://autopush-cloudcode-pa.sandbox.googleapis.com",
+    ];
+
+    for (const endpoint of endpoints) {
+        try {
+            const response = await fetch(`${endpoint}/v1internal:loadCodeAssist`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json",
+                    "User-Agent": "google-api-nodejs-client/9.15.1",
+                    "X-Goog-Api-Client": "google-cloud-sdk vscode_cloudshelleditor/0.1",
+                },
+                body: JSON.stringify({
+                    metadata: {
+                        ideType: "ANTIGRAVITY",
+                        platform: process.platform === "win32" ? "WINDOWS" : "MACOS",
+                        pluginType: "GEMINI",
+                    },
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const projectId =
+                    data.cloudaicompanionProject?.id ||
+                    data.cloudaicompanionProject;
+                if (projectId && typeof projectId === "string") {
+                    return projectId;
+                }
+            }
+        } catch {
+            // Try next endpoint
+        }
+    }
+    return "";
+}
+
+/**
  * Exchange an authorization code for tokens.
  */
 export async function exchangeGoogleCode(
@@ -99,9 +144,13 @@ export async function exchangeGoogleCode(
         // Non-critical
     }
 
+    // Resolve project ID
+    const projectId = await fetchProjectID(data.access_token);
+
     return {
         accessToken: data.access_token,
-        refreshToken: data.refresh_token,
+        // Store refresh token with project ID suffix
+        refreshToken: `${data.refresh_token}|${projectId}`,
         expiresIn: data.expires_in,
         email,
     };

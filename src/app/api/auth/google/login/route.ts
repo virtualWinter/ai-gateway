@@ -16,9 +16,7 @@ export async function GET() {
     const redirectUri =
         config.googleRedirectUri ||
         `${config.baseUrl}/api/auth/google/callback`;
-    const scopes =
-        process.env.GOOGLE_SCOPES ||
-        "openid email https://www.googleapis.com/auth/cloud-platform";
+    const scopes = config.googleScopes;
 
     if (!clientId) {
         return NextResponse.json(

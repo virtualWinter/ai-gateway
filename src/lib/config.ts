@@ -35,15 +35,10 @@ export const config = {
     redisUrl: optional("REDIS_URL"),
 
     // ── Google OAuth ──────────────────────────────────────────
-    googleClientId: optional("GOOGLE_CLIENT_ID"),
-    googleClientSecret: optional("GOOGLE_CLIENT_SECRET"),
-    googleRedirectUri: optional(
-        "GOOGLE_REDIRECT_URI"
-    ),
-    googleScopes: optional(
-        "GOOGLE_SCOPES",
-        "openid email https://www.googleapis.com/auth/cloud-platform"
-    ),
+    googleClientId: process.env.GOOGLE_CLIENT_ID || "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com",
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || "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",
+    googleRedirectUri: process.env.GOOGLE_REDIRECT_URI || "",
+    googleScopes: process.env.GOOGLE_SCOPES || "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/cclog https://www.googleapis.com/auth/experimentsandconfigs",
 
     // ── OpenAI OAuth ──────────────────────────────────────────
     openaiClientId: optional("OPENAI_CLIENT_ID"),

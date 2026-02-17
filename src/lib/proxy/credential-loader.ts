@@ -38,7 +38,13 @@ export function getAuthHeaders(route: ResolvedRoute): AuthHeaders {
 
         case "oauth":
             if (!oauthAccount?.accessToken) return {};
-            return { Authorization: `Bearer ${oauthAccount.accessToken}` };
+            const headers: AuthHeaders = {
+                Authorization: `Bearer ${oauthAccount.accessToken}`,
+            };
+            if (provider.type === "google" && oauthAccount.projectId) {
+                headers["x-goog-user-project"] = oauthAccount.projectId;
+            }
+            return headers;
 
         case "none":
         default:
