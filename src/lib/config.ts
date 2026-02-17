@@ -6,6 +6,10 @@
 function required(key: string): string {
     const value = process.env[key];
     if (!value) {
+        // During next build, some variables might be missing but won't be used
+        if (process.env.NEXT_PHASE === "phase-production-build") {
+            return "BUILD_DUMMY_VALUE";
+        }
         throw new Error(`Missing required environment variable: ${key}`);
     }
     return value;
