@@ -5,7 +5,7 @@
  */
 
 import { db } from "../db";
-import { adminUsers } from "../db/schema";
+import { adminUsers, providers } from "../db/schema";
 import { hashPassword } from "../lib/auth/admin-auth";
 import { eq } from "drizzle-orm";
 
@@ -40,6 +40,37 @@ async function main() {
             role: "admin",
         });
         console.log("Admin user created.");
+    }
+
+    // Ensure default providers exist
+    const defaultProviders = [
+        {
+            name: "Google AI",
+            type: "google" as const,
+            baseUrl: "https://generativelanguage.googleapis.com",
+            authType: "oauth" as const,
+        },
+        {
+            name: "OpenAI",
+            type: "openai" as const,
+            baseUrl: "https://api.openai.com",
+            authType: "oauth" as const,
+        },
+    ];
+
+    for (const p of defaultProviders) {
+        const [existing] = await db
+            .select()
+            .from(providers)
+            .where(eq(providers.type, p.type))
+            .limit(1);
+
+        if (!existing) {
+            console.log(`Preconfiguring provider: ${p.name}`);
+            await db.insert(providers).values(p);
+        } else {
+            console.log(`Provider already exists: ${p.name}`);
+        }
     }
 
     process.exit(0);
