@@ -61,43 +61,50 @@ export default async function OAuthAccountsPage({
                 </div>
             )}
 
+            {/* Description */}
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", margin: "-16px 0 24px", maxWidth: 600 }}>
+                Connect your provider accounts to enable automated credential rotation, health monitoring, and seamless model access.
+            </p>
+
             {/* Connect buttons */}
             <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
                 <Link
                     href="/api/auth/google/login"
                     style={{
-                        padding: "10px 20px",
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.1)",
+                        padding: "10px 18px",
+                        background: "rgba(66,133,244,0.1)",
+                        border: "1px solid rgba(66,133,244,0.2)",
                         borderRadius: 8,
                         color: "#fff",
                         textDecoration: "none",
                         fontSize: 13,
-                        fontWeight: 500,
+                        fontWeight: 600,
                         display: "flex",
                         alignItems: "center",
                         gap: 8,
+                        transition: "all 0.15s",
                     }}
                 >
-                    🔗 Connect Google Account
+                    <span style={{ fontSize: 16 }}>🌐</span> Connect Google Account
                 </Link>
                 <Link
                     href="/api/auth/openai/login"
                     style={{
-                        padding: "10px 20px",
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.1)",
+                        padding: "10px 18px",
+                        background: "rgba(16,163,127,0.1)",
+                        border: "1px solid rgba(16,163,127,0.2)",
                         borderRadius: 8,
                         color: "#fff",
                         textDecoration: "none",
                         fontSize: 13,
-                        fontWeight: 500,
+                        fontWeight: 600,
                         display: "flex",
                         alignItems: "center",
                         gap: 8,
+                        transition: "all 0.15s",
                     }}
                 >
-                    🔗 Connect OpenAI Account
+                    <span style={{ fontSize: 16 }}>🧠</span> Connect OpenAI Account
                 </Link>
             </div>
 

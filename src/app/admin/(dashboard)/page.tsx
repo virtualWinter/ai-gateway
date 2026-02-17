@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { providers, models, apiKeys, oauthAccounts, usageLogs } from "@/db/schema";
 import { eq, sql, gte } from "drizzle-orm";
+import Link from "next/link";
 
 const cardStyle = {
     background: "rgba(255,255,255,0.03)",
@@ -87,6 +88,82 @@ export default async function AdminDashboardPage() {
             >
                 Dashboard
             </h2>
+
+            {/* Quick Actions */}
+            <div
+                style={{
+                    display: "flex",
+                    gap: 16,
+                    marginBottom: 32,
+                }}
+            >
+                <Link
+                    href="/api/auth/google/login"
+                    style={{
+                        flex: 1,
+                        padding: "16px 24px",
+                        background: "rgba(66,133,244,0.1)",
+                        border: "1px solid rgba(66,133,244,0.2)",
+                        borderRadius: 12,
+                        color: "#fff",
+                        textDecoration: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        transition: "all 0.15s",
+                    }}
+                >
+                    <span style={{ fontSize: 24 }}>🌐</span>
+                    <div>
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>Connect Google</div>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Add Vertex/Google AI</div>
+                    </div>
+                </Link>
+                <Link
+                    href="/api/auth/openai/login"
+                    style={{
+                        flex: 1,
+                        padding: "16px 24px",
+                        background: "rgba(16,163,127,0.1)",
+                        border: "1px solid rgba(16,163,127,0.2)",
+                        borderRadius: 12,
+                        color: "#fff",
+                        textDecoration: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        transition: "all 0.15s",
+                    }}
+                >
+                    <span style={{ fontSize: 24 }}>🧠</span>
+                    <div>
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>Connect OpenAI</div>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Add GPT-4o/o1</div>
+                    </div>
+                </Link>
+                <Link
+                    href="/admin/api-keys"
+                    style={{
+                        flex: 1,
+                        padding: "16px 24px",
+                        background: "rgba(139,92,246,0.1)",
+                        border: "1px solid rgba(139,92,246,0.2)",
+                        borderRadius: 12,
+                        color: "#fff",
+                        textDecoration: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        transition: "all 0.15s",
+                    }}
+                >
+                    <span style={{ fontSize: 24 }}>🔑</span>
+                    <div>
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>New API Key</div>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Create gateway key</div>
+                    </div>
+                </Link>
+            </div>
 
             {/* Resource cards */}
             <div

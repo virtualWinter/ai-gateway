@@ -1,4 +1,5 @@
 import { listProviders, createProvider, toggleProviderActive, deleteProvider } from "@/lib/actions/providers";
+import Link from "next/link";
 
 const tableStyle = {
     width: "100%",
@@ -169,6 +170,21 @@ export default async function ProvidersPage() {
                                             {p.isActive ? "Disable" : "Enable"}
                                         </button>
                                     </form>
+                                    {p.authType === "oauth" && (
+                                        <Link
+                                            href={p.type === "google" ? "/api/auth/google/login" : "/api/auth/openai/login"}
+                                            style={{
+                                                ...btnStyle,
+                                                textDecoration: "none",
+                                                display: "inline-block",
+                                                background: p.type === "google" ? "rgba(66,133,244,0.1)" : "rgba(16,163,127,0.1)",
+                                                borderColor: p.type === "google" ? "rgba(66,133,244,0.2)" : "rgba(16,163,127,0.2)",
+                                                color: "#fff",
+                                            }}
+                                        >
+                                            Connect
+                                        </Link>
+                                    )}
                                     <form style={{ display: "inline" }} action={deleteProvider.bind(null, p.id)}>
                                         <button type="submit" style={{ ...btnStyle, color: "#f87171", borderColor: "rgba(239,68,68,0.2)" }}>
                                             Delete
