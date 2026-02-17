@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
         const clientId = process.env.OPENAI_CLIENT_ID!;
         const redirectUri =
             process.env.OPENAI_REDIRECT_URI ||
-            "http://localhost:3000/api/auth/openai/callback";
+            "http://localhost:4000/api/auth/openai/callback";
 
         const result = await exchangeOpenAICode(
             code,

@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
         const clientSecret = process.env.GOOGLE_CLIENT_SECRET!;
         const redirectUri =
             process.env.GOOGLE_REDIRECT_URI ||
-            "http://localhost:3000/api/auth/google/callback";
+            "http://localhost:4000/api/auth/google/callback";
 
         const result = await exchangeGoogleCode(
             code,

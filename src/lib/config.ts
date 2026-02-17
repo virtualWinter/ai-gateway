@@ -68,5 +68,5 @@ export const config = {
 
     // ── App ─────────────────────────────────────────────────
     nodeEnv: optional("NODE_ENV", "development"),
-    baseUrl: optional("BASE_URL", "http://localhost:3000"),
+    baseUrl: optional("BASE_URL", "http://localhost:4000"),
 } as const;
