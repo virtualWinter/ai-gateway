@@ -15,12 +15,21 @@ const TAG_LENGTH = 16;
 
 function getKey(): Buffer {
     const hex = process.env.ENCRYPTION_KEY;
-    if (!hex || hex.length !== 64) {
+    if (!hex) {
+        throw new Error("ENCRYPTION_KEY environment variable is missing");
+    }
+    if (hex.length !== 64) {
         throw new Error(
-            "ENCRYPTION_KEY must be a 64-character hex string (32 bytes)"
+            `ENCRYPTION_KEY must be exactly 64 hex characters (found ${hex.length})`
         );
     }
-    return Buffer.from(hex, "hex");
+    const key = Buffer.from(hex, "hex");
+    if (key.length !== 32) {
+        throw new Error(
+            "ENCRYPTION_KEY is not a valid 64-character hex string"
+        );
+    }
+    return key;
 }
 
 /**
