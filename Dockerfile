@@ -26,6 +26,8 @@ COPY --from=builder --chown=nextjs:bun /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:bun /app/.next/static ./.next/static
 COPY --from=builder /app/drizzle.config.ts ./
 COPY --from=builder /app/src/db ./src/db
+COPY --from=builder /app/src/lib ./src/lib
+COPY --from=builder /app/src/scripts ./src/scripts
 COPY --from=builder /app/node_modules ./node_modules
 
 USER nextjs
