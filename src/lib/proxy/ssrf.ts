@@ -3,6 +3,7 @@
  */
 
 import { createLogger } from "@/lib/logger";
+import { config } from "@/lib/config";
 
 const log = createLogger("ssrf");
 
@@ -53,6 +54,10 @@ export function validateBaseUrl(baseUrl: string): {
 } {
     try {
         const url = new URL(baseUrl);
+
+        if (config.disableSsrfProtection) {
+            return { valid: true };
+        }
 
         // Must be HTTPS in production
         if (

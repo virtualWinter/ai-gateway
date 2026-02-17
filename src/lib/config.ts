@@ -64,6 +64,7 @@ export const config = {
         .split(",")
         .map((h) => h.trim())
         .filter(Boolean),
+    disableSsrfProtection: optional("DISABLE_SSRF_PROTECTION") === "true",
 
     // ── Admin Auth ────────────────────────────────────────────
     adminSessionTtlHours: optionalInt("ADMIN_SESSION_TTL_HOURS", 168), // 7 days
