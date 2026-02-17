@@ -34,8 +34,7 @@ export const config = {
     googleClientId: optional("GOOGLE_CLIENT_ID"),
     googleClientSecret: optional("GOOGLE_CLIENT_SECRET"),
     googleRedirectUri: optional(
-        "GOOGLE_REDIRECT_URI",
-        "http://localhost:3000/api/auth/google/callback"
+        "GOOGLE_REDIRECT_URI"
     ),
     googleScopes: optional(
         "GOOGLE_SCOPES",
@@ -45,8 +44,7 @@ export const config = {
     // ── OpenAI OAuth ──────────────────────────────────────────
     openaiClientId: optional("OPENAI_CLIENT_ID"),
     openaiRedirectUri: optional(
-        "OPENAI_REDIRECT_URI",
-        "http://localhost:3000/api/auth/openai/callback"
+        "OPENAI_REDIRECT_URI"
     ),
 
     // ── Rate Limiting ─────────────────────────────────────────

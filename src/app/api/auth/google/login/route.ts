@@ -9,11 +9,13 @@ import { randomBytes } from "node:crypto";
 import { buildGoogleAuthUrl, generatePKCE } from "@/lib/auth/google-oauth";
 import { encrypt } from "@/lib/crypto";
 
+import { config } from "@/lib/config";
+
 export async function GET() {
-    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientId = config.googleClientId;
     const redirectUri =
-        process.env.GOOGLE_REDIRECT_URI ||
-        "http://localhost:4000/api/auth/google/callback";
+        config.googleRedirectUri ||
+        `${config.baseUrl}/api/auth/google/callback`;
     const scopes =
         process.env.GOOGLE_SCOPES ||
         "openid email https://www.googleapis.com/auth/cloud-platform";

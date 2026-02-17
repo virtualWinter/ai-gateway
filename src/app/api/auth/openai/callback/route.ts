@@ -11,6 +11,7 @@ import { db } from "@/db";
 import { oauthAccounts, providers } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { createLogger } from "@/lib/logger";
+import { config } from "@/lib/config";
 
 const log = createLogger("openai-oauth-callback");
 
@@ -53,10 +54,10 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        const clientId = process.env.OPENAI_CLIENT_ID!;
+        const clientId = config.openaiClientId!;
         const redirectUri =
-            process.env.OPENAI_REDIRECT_URI ||
-            "http://localhost:4000/api/auth/openai/callback";
+            config.openaiRedirectUri ||
+            `${config.baseUrl}/api/auth/openai/callback`;
 
         const result = await exchangeOpenAICode(
             code,

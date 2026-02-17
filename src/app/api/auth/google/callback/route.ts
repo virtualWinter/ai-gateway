@@ -11,6 +11,7 @@ import { db } from "@/db";
 import { oauthAccounts, providers } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { createLogger } from "@/lib/logger";
+import { config } from "@/lib/config";
 
 const log = createLogger("google-oauth-callback");
 
@@ -55,11 +56,11 @@ export async function GET(req: NextRequest) {
         }
 
         // Exchange code for tokens
-        const clientId = process.env.GOOGLE_CLIENT_ID!;
-        const clientSecret = process.env.GOOGLE_CLIENT_SECRET!;
+        const clientId = config.googleClientId!;
+        const clientSecret = config.googleClientSecret!;
         const redirectUri =
-            process.env.GOOGLE_REDIRECT_URI ||
-            "http://localhost:4000/api/auth/google/callback";
+            config.googleRedirectUri ||
+            `${config.baseUrl}/api/auth/google/callback`;
 
         const result = await exchangeGoogleCode(
             code,

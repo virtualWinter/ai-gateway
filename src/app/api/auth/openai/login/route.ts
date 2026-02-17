@@ -9,11 +9,13 @@ import { randomBytes } from "node:crypto";
 import { buildOpenAIAuthUrl, generatePKCE } from "@/lib/auth/openai-oauth";
 import { encrypt } from "@/lib/crypto";
 
+import { config } from "@/lib/config";
+
 export async function GET() {
-    const clientId = process.env.OPENAI_CLIENT_ID;
+    const clientId = config.openaiClientId;
     const redirectUri =
-        process.env.OPENAI_REDIRECT_URI ||
-        "http://localhost:4000/api/auth/openai/callback";
+        config.openaiRedirectUri ||
+        `${config.baseUrl}/api/auth/openai/callback`;
 
     if (!clientId) {
         return NextResponse.json(
